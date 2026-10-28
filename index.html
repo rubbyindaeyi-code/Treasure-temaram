@@ -27,4 +27,104 @@ body{background:#000;color:#fff;font-family:-apple-system,system-ui;height:100vh
 .time{font-size:10px;opacity:.6;margin-left:6px}
 .bar{padding:8px;background:#111;border-top:1px solid #222;display:flex;gap:8px}
 .bar input{flex:1;background:#1c1c1e;border:0;border-radius:20px;padding:11px 14px;color:#fff;outline:none}
-.bar button{background:#0a84ff;color:#fff;border:
+.bar button{background:#0a84ff;color:#fff;border:0;border-radius:50%;width:36px;height:36px}
+.typing{color:#888;font-size:12px;padding:5px 12px;display:none}
+</style>
+</head>
+<body>
+<div class="top"><b>TREASURE TEMARAM 💎</b><small style="color:#888;margin-left:8px"> 12 members online</small></div>
+
+<div id="lock">
+<div class="card">
+<h2>🔒 Private Treasure</h2>
+<p style="color:#aaa;font-size:13px;margin-top:6px">treasure-temaram-three.vercel.app<br>Password: 140300</p>
+<input id="pw" placeholder="••••••" maxlength="6" type="text">
+<button onclick="go()">ENTER</button>
+<div id="e" class="err">Wrong password!</div>
+</div>
+</div>
+
+<div id="chat">
+<div class="group-head">
+<div style="font-size:11px;color:#aaa">Hyunsuk, Jihoon, Yoshi, Junkyu, Mashiho, Asahi, Jaehyuk, Yedam, Doyoung, Haruto, Jeongwoo, Junghwan</div>
+<b>TEUME Treasure Chat 💙</b>
+</div>
+<div class="msgs" id="msgs">
+<div class="name">Hyunsuk</div><div class="row left"><div class="bubble">Guys, the treasure hunt started! Who found the key? 🔑 <span class="time">04:40</span></div></div>
+<div class="name">Jihoon</div><div class="row left"><div class="bubble">I called, but no answer <span class="time">04:40</span></div></div>
+<div class="row left"><div class="bubble">Then suddenly he called first <span class="time">04:40</span></div></div>
+<div class="name">Yoshi</div><div class="row left"><div class="bubble">The owner? <span class="time">04:41</span></div></div>
+<div class="name">Junkyu</div><div class="row left"><div class="bubble">Your grandpa suddenly called??? 😭 <span class="time">04:42</span></div></div>
+<div class="name">Mashiho</div><div class="row left"><div class="bubble">yeah it's the owner damn <span class="time">04:43</span></div></div>
+<div class="row left"><div class="bubble">then what happened? <span class="time">04:43</span></div></div>
+<div class="name">Asahi</div><div class="row left"><div class="bubble">Check the library... 📚 <span class="time">04:44</span></div></div>
+<div class="name">Jaehyuk</div><div class="row left"><div class="bubble">Password is 140300 right? <span class="time">04:44</span></div></div>
+<div class="row left" style="margin-top:10px"><div class="bubble" style="background:#111;border:1px solid #f5d76e33">📚 <a href="library.html" style="color:#f5d76e">Open Library of Secrets</a></div></div>
+</div>
+<div id="typing" class="typing"></div>
+<div class="bar">
+<input id="msgInput" placeholder="Chat with TREASURE..." onkeypress="if(event.key==='Enter')send()">
+<button onclick="send()">↑</button>
+</div>
+</div>
+
+<script>
+function go(){
+  var v = document.getElementById('pw').value.trim();
+  if(v === '140300'){
+    document.getElementById('lock').style.display='none';
+    document.getElementById('chat').style.display='flex';
+  } else {
+    document.getElementById('e').style.display='block';
+  }
+}
+const members = [
+  {name:'Hyunsuk', replies:["Hyung here! Did you find the treasure yet? 💎","Good job! Next clue is in library!","TEUME you got this!"]},
+  {name:'Jihoon', replies:["Hoon here! The owner called? Really? 😳","Don't scare me! What happened next?","Call him back!"]},
+  {name:'Yoshi', replies:["Yoshi! Is that true story? 👀","Temaram is scary at night...","I have the key!"]},
+  {name:'Junkyu', replies:["Koala here 🐨 What?? Your grandpa?","Omg that's creepy...","Did you open the library?"]},
+  {name:'Mashiho', replies:["Mashiho~ Is everyone okay?","I brought snacks for treasure hunt 🍿","The library is dark..."]},
+  {name:'Asahi', replies:["Asahi... check under second shelf","I drew a map for you 🗺️","Robot Asahi found clue!"]},
+  {name:'Jaehyuk', replies:["Jaehyuk! Let's go together!","I know shortcut to library","Be careful!"]},
+  {name:'Yedam', replies:["Yedam here 🎤 I wrote song about treasure","My voice can open the door?","Sing 140300?"]},
+  {name:'Doyoung', replies:["Doyoung! Did you eat?","I can dance to unlock it 💃","Let's solve together!"]},
+  {name:'Haruto', replies:["Haruto 🇯🇵 Treasure? Let's go!","Tall Haruto can reach top shelf","I found something!"]},
+  {name:'Jeongwoo', replies:["Jeongwoo 🐺 Woooo! Treasure!!","I'm scared but excited!","Don't leave me!"]},
+  {name:'Junghwan', replies:["Junghwan maknae! I'm here too!","Hyungs, wait for me! 🏃","I found candy in library!"]}
+];
+function addMsg(text, side, name){
+  var msgs = document.getElementById('msgs');
+  if(name && side==='left'){
+    var n = document.createElement('div'); n.className='name'; n.textContent=name; msgs.appendChild(n);
+  }
+  var row = document.createElement('div'); row.className='row '+side;
+  var bub = document.createElement('div'); bub.className='bubble';
+  var time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  bub.innerHTML = text + ' <span class="time">'+time+'</span>';
+  row.appendChild(bub); msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function send(){
+  var input = document.getElementById('msgInput');
+  var t = input.value.trim(); if(!t) return;
+  addMsg(t, 'right'); input.value='';
+  var typing = document.getElementById('typing');
+  // Random 1-3 members reply
+  var numReplies = Math.floor(Math.random()*2)+1;
+  let delay = 1000;
+  for(let i=0;i<numReplies;i++){
+    setTimeout(()=>{
+      var m = members[Math.floor(Math.random()*members.length)];
+      var replyText = m.replies[Math.floor(Math.random()*m.replies.length)];
+      typing.textContent = m.name + ' is typing...'; typing.style.display='block';
+      setTimeout(()=>{
+        typing.style.display='none';
+        addMsg(replyText, 'left', m.name);
+      }, 800);
+    }, delay);
+    delay += 1800;
+  }
+}
+</script>
+</body>
+  </html>
